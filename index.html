@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Beyond Countdown</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <meta charset="UTF-8">
+</head>
+
+<body>
+    <div id="app">
+        <div class="progress" style="height: 5px; margin-bottom: 2%;">
+            <div class="progress-bar" :class="timerState == 'overdue' ? 'bg-danger' : ''" role="progressbar"
+                :style="{width: computedWidth}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+
+        <div class="container">
+            <div class="h-50">
+                <h2>Beyond Countdown ⏰</h2>
+                <hr>
+                <p>How to use? Input minutes for your countdown and press play.</p>
+                <p>Once the countdown goes to 0, it will play a sound and start a new timer until you hit stop. You can
+                    check this timer to see how late you were to reset the countdown. The progress bar on the top shows
+                    seconds.</p>
+            </div>
+
+            <div class="row">
+                <div class="input-group mb-3">
+                    <input class="form-control form-control-lg" type="number" v-model="timer"
+                        v-on:change="saveDefaultTimerValue">
+                    <span class="input-group-text" id="basic-addon2">:&nbsp;{{timerSeconds}}</span>
+                </div>
+            </div>
+            <div class="d-grid gap-2 d-md-block">
+                <button class="btn btn-success" v-on:click="playTimer"
+                    :disabled="timerState == 'playing' || timerState == 'overdue'">Play ▶ </button>
+                <button class="btn btn-warning" v-on:click="pauseTimer"
+                    :disabled="timerState == 'paused' || timerState == 'overdue'">Pause ⏸ </button>
+                <button class="btn btn-danger" v-on:click="stopTimer" :disabled="timerState == 'stopped'">Stop
+                    ⏹</button>
+            </div>
+            <hr>
+            <h3>Presets:</h3>
+            <div class="d-grid gap-2 d-md-block">
+                <button class="btn btn-dark" v-on:click="setTimer(25)"
+                    :disabled="timerState == 'playing' || timerState == 'overdue' || timerState == 'paused'">25</button>
+                <button class="btn btn-dark" v-on:click="setTimer(30)"
+                    :disabled="timerState == 'playing' || timerState == 'overdue' || timerState == 'paused'">30</button>
+                <button class="btn btn-dark" v-on:click="setTimer(45)"
+                    :disabled="timerState == 'playing' || timerState == 'overdue' || timerState == 'paused'">45</button>
+                <button class="btn btn-dark" v-on:click="setTimer(60)"
+                    :disabled="timerState == 'playing' || timerState == 'overdue' || timerState == 'paused'">60</button>
+                <button class="btn btn-dark" v-on:click="setTimer(90)"
+                    :disabled="timerState == 'playing' || timerState == 'overdue' || timerState == 'paused'">90</button>
+            </div>
+        </div>
+        <audio ref="alarmSound" src="./alarm.mp3"></audio>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="./app.js"></script> <!-- always last -->
+
+</html>
