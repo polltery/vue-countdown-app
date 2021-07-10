@@ -15,7 +15,7 @@
     ],
     "start_url": ".",
     "background_color": "#D1EDE1",
-    "display": "fullscreen",
+    "display": "standalone",
     "scope": "/",
     "theme_color": "#D1EDE1",
     "description": "A countdown timer that starts a timer after countdown."
