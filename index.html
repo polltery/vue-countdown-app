@@ -32,7 +32,7 @@
                 <div class="input-group mb-3">
                     <input class="form-control form-control-lg" type="number" v-model="timer"
                         v-on:change="saveDefaultTimerValue">
-                    <span class="input-group-text" id="basic-addon2">:&nbsp;{{timerSeconds}}</span>
+                    <span class="input-group-text" id="basic-addon2">:&nbsp;{{timerSeconds &lt; 10 ? 0 : ''}}{{timerSeconds}}</span>
                 </div>
             </div>
             <div class="d-grid gap-2 d-md-block">
