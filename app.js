@@ -1,26 +1,45 @@
-var defaultTimerValue = 25;
+// default minutes
+var defaultTimerValue = 25; 
 var app = new Vue({
     el: '#app',
     data: {
+        // used to keep track of initial timer value which is applied when user stops the clock
         initialTimerValue: defaultTimerValue,
-        timer: defaultTimerValue,
-        timerSeconds: 0,
+        // minutes (this could have been named better)
+        timer: defaultTimerValue, 
+        // seconds
+        timerSeconds: 0, 
+        // stopped -> playing -> paused/stopped/overdue (repeat)
         timerState: 'stopped',
-        intervalObject: null
+        intervalObject: null,
+        // this stores the amount of time user takes to stop the clock after overdue
+        timerRecord: {
+            minutes: 0,
+            seconds: 0
+        }
     },
+
+    // Vue has computed variable which are dynamic and updated per frame (i think)
     computed: {
+        // used for the loading bar shown on top of the screen
         computedWidth: function(){
             return (this.timerSeconds/60)*100 + '%';
         }
     },
+
     methods: {
+
+        // set the timer to value x
         setTimer: function(x){
             this.timer = x;
             this.initialTimerValue = x;
         },
+
+        // save the default value if the text box is updated
         saveDefaultTimerValue: function () {
             this.initialTimerValue = this.timer;
         },
+
         playTimer: function () {
             this.timerState = 'playing';
             if(this.intervalObject == null){
@@ -37,8 +56,11 @@ var app = new Vue({
             this.timer = this.initialTimerValue;
             this.timerSeconds = 0;
         },
+
+        // ran every second when playing
         updateTimer: function () {
             if(this.timerState == 'playing'){
+                // set to overdue if time is up
                 if(this.timer == 0 && this.timerSeconds == 0){
                     this.timerState = 'overdue';
                     this.$refs.alarmSound.play();
@@ -50,6 +72,7 @@ var app = new Vue({
                     this.timerSeconds -= 1;
                 }
             }else if(this.timerState == 'overdue'){
+                // play a sound every minute if overdue
                 if(this.timerSeconds == 59){
                     this.$refs.alarmSound.play();
                     this.timerSeconds = 0;
