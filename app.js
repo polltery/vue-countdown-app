@@ -16,7 +16,9 @@ var app = new Vue({
         timerRecord: {
             minutes: 0,
             seconds: 0
-        }
+        },
+        // mutes the alarm that is beeped every minute
+        mute: false
     },
 
     // Vue has computed variable which are dynamic and updated per frame (i think)
@@ -63,7 +65,9 @@ var app = new Vue({
                 // set to overdue if time is up
                 if(this.timer == 0 && this.timerSeconds == 0){
                     this.timerState = 'overdue';
-                    this.$refs.alarmSound.play();
+                    if(!this.mute){
+                        this.$refs.alarmSound.play();
+                    }
                 }else{
                     if(this.timerSeconds == 0){
                         this.timerSeconds = 60;
@@ -74,12 +78,19 @@ var app = new Vue({
             }else if(this.timerState == 'overdue'){
                 // play a sound every minute if overdue
                 if(this.timerSeconds == 59){
-                    this.$refs.alarmSound.play();
+                    if(!this.mute){
+                        this.$refs.alarmSound.play();
+                    }
                     this.timerSeconds = 0;
                     this.timer += 1;
                 }
                 this.timerSeconds += 1;
             }
+        },
+
+        toggleMute: function () {
+            this.mute = !this.mute;
+            document.getElementById('mute-button').innerText = (this.mute ? 'Unmute 🔇' : 'Mute 🔉');
         }
     }
 })

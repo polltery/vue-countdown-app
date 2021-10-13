@@ -42,6 +42,8 @@
                     :disabled="timerState == 'paused' || timerState == 'overdue'">Pause ⏸ </button>
                 <button class="btn btn-danger" v-on:click="stopTimer" :disabled="timerState == 'stopped'">Stop
                     ⏹</button>
+                <button class="btn btn-danger" v-on:click="toggleMute" id="mute-button">Mute
+                    🔉</button>   
             </div>
             <hr>
             <h3>Presets:</h3>
