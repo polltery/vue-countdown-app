@@ -14,6 +14,7 @@ var app = new Vue({
         intervalObject: null,
         // this stores the amount of time user takes to stop the clock after overdue
         timerRecord: {
+            visible: false,
             minutes: 0,
             seconds: 0
         },
@@ -47,11 +48,20 @@ var app = new Vue({
             if(this.intervalObject == null){
                 this.intervalObject = setInterval(this.updateTimer, 1000);
             }
+            this.timerRecord.visible = false;
         },
         pauseTimer: function () {
             this.timerState = 'paused';
+            this.timerRecord.visible = false;
         },
         stopTimer: function () {
+            if(this.timerState == 'overdue'){
+                this.timerRecord.minutes = this.timer;
+                this.timerRecord.seconds = this.timerSeconds;
+                this.timerRecord.visible = true;
+            }else{
+                this.timerRecord.visible = false;
+            }
             this.timerState = 'stopped';
             clearInterval(this.intervalObject);
             this.intervalObject = null;
